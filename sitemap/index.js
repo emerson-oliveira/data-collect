@@ -1,5 +1,21 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
+const args = process.argv;
+let urlIndex = -1; // Inicializa com um valor inválido para indicar que o parâmetro -u não foi encontrado
+
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === '-u') {
+    urlIndex = i;
+    break;
+  }
+}
+
+if (urlIndex !== -1) {
+  const dominio = args[urlIndex + 1]; // Obtém o valor após o parâmetro -u
+  console.log(`Parâmetro -u encontrado. Domínio: ${dominio}`);
+} else {
+  console.log('Parâmetro -u não encontrado.');
+}
 
 (async () => {
   try {
@@ -7,7 +23,7 @@ const fs = require("fs");
       headless: false,
     });
     const page = await browser.newPage();
-    const website = "domain.com.br";
+    const website = "www.cmsaccount.com";
     await page.goto(`https://www.google.com/search?q=site:https://${website}/`);
     await page.setViewport({ width: 1536, height: 864 });
 
